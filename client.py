@@ -11,7 +11,7 @@ if ask_scan.lower() == 'да':
 port = int(input('Введите порт: '))
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connect = client.connect((hostname, port))
-
+run = True
 while True:
     name = input('Введите имя: ')
     password = input('Введите пароль: ')
@@ -22,16 +22,23 @@ while True:
 
 def client_send():
     while True:
-        client.send(f'{name}: {input("")}'.encode())
+        data = input("")
+        client.send(f'{name}: {data}'.encode())
+        if data.lower() == 'off':
+            run = False
+            client.close()
+            break
         # recv = client.recv(1024)
         # print(recv.decode())
 
+
 def client_recv():
-    while True:
-        recv = client.recv(1024)
-        print(recv.decode())
-
-
+    try:
+        while True:
+            recv = client.recv(1024)
+            print(recv.decode())
+    except OSError:
+        print('Соединение разорванно')
 
 
 # client_send()

@@ -18,3 +18,8 @@ def auth(name: str, password: str) -> bool:
         data = json.dump(information, f)
     print(f'Учетная запись {name} {password} создана')
     return True
+
+
+def clear_auth():
+    with open('auth_info.json', 'w') as f:
+        information = json.dump(list(), f)
